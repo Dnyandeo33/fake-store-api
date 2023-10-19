@@ -1,4 +1,4 @@
-import { v4 as userID } from "uuid";
+import { v4 as userId } from "uuid";
 
 const users = [
     {
@@ -10,6 +10,7 @@ const users = [
 
 class User {
     constructor(email, password) {
+        this.id = userId()
         this.email = email;
         this.password = password;
     }
