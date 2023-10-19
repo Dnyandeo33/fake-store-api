@@ -3,8 +3,8 @@ import { v4 as userID } from "uuid";
 const users = [
     {
         id: '1',
-        email: "dnyanu.waghunde@gmail.com",
-        password: "dnyanu123"
+        email: "test@gmail.com",
+        password: "Test@123"
     }
 ];
 
@@ -14,12 +14,15 @@ class User {
         this.password = password;
     }
 
-    getUser = () => {
+    static getUser = () => {
         return users
     };
 
-    getUserById = (id) => {
+    static getUserById = (id) => {
         return users.find((user) => user.id === id)
+    }
+    addUser = () => {
+        users.push(this)
     }
 };
 
