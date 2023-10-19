@@ -1,30 +1,30 @@
-import { v4 as userId } from "uuid";
+import { v4 as userId } from 'uuid';
 
 const users = [
     {
         id: '1',
-        email: "test@gmail.com",
-        password: "Test@123"
+        email: 'test@gmail.com',
+        password: '12345'
     }
 ];
 
 class User {
     constructor(email, password) {
-        this.id = userId()
+        this.id = userId();
         this.email = email;
         this.password = password;
     }
 
     static getUser = () => {
-        return users
+        return users;
     };
 
-    static getUserById = (id) => {
-        return users.find((user) => user.id === id)
-    }
+    static getUserById = (email) => {
+        return users.find((user) => user.email === email);
+    };
     addUser = () => {
-        users.push(this)
-    }
-};
+        users.push(this);
+    };
+}
 
 export default User;

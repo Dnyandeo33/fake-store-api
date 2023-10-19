@@ -1,46 +1,82 @@
-import User from "../models/user.js";
-import validateEmail from "../utils/validateEmail.js";
-import validatePassword from "../utils/validatePassword.js";
+import User from '../models/user.js';
+import validateEmail from '../utils/validateEmail.js';
+import validatePassword from '../utils/validatePassword.js';
 
 const userController = {
     getHome: (req, res) => {
-        res.status(200).render('form', { action: '/sign-up', button: "Sign up" })
+        res.status(200).render('form', {
+            action: '/register',
+            btnText: 'Register',
+            title: 'Register',
+            linkText: 'Login',
+            redirect: '/login'
+        });
     },
 
-    singUp: (req, res) => {
+    getLogin: (req, res) => {
+        res.status(200).render('form', {
+            action: '/login',
+            btnText: 'Login',
+            title: 'Login',
+            linkText: 'Register',
+            redirect: '/'
+        });
+    },
+
+    register: (req, res) => {
         const { email, password } = req.body;
         const emailExist = User.getUserById(email);
         if (!emailExist) {
-            const isValidateEmail = validateEmail(email)
-            const isValidatePassword = validatePassword(password)
+            const isValidateEmail = validateEmail(email);
+            const isValidatePassword = validatePassword(password);
 
             if (isValidateEmail && isValidatePassword) {
-
                 const user = new User(email, password);
-                user.addUser()
-                res.status(200).render('welcome', { message: `welcome ${email}` })
+                user.addUser();
+                res.status(200).redirect('/login')
             } else {
-                res.status(409).render('message', { title: 'Not valid email or password', message: `Provide valid email & password` })
-
+                res.status(409).render('message', {
+                    title: 'invalid email or password',
+                    message: `Provide valid email & password`,
+                    redirect: '/',
+                    linkText: 'Register'
+                });
             }
         } else {
-            res.status(409).render('message', { message: `Email or password not valid` })
+            res.status(409).render('message', {
+                title: 'invalid email or password',
+                message: `Email or password not valid`,
+                redirect: '/',
+                linkText: 'Register'
+            });
         }
-
     },
 
-    singIn: (req, res) => {
+    login: (req, res) => {
         const { email, password } = req.body;
         const emailExist = User.getUserById(email);
 
         if (!emailExist) {
-            res.status(409).render('message', { message: `Email is not existed` })
+            res.status(409).render('message', {
+                title: 'invalid email or password',
+                message: `Provide valid email & password`,
+                redirect: '/',
+                linkText: 'Register'
+
+            });
         } else {
             if (emailExist.password === password) {
-                res.status(200).render('welcome', { message: `welcome ${email}` })
+                res.status(200).render('welcome', { title: 'welcome page' })
+            } else {
+                res.status(409).render('message', {
+                    title: 'invalid email or password',
+                    message: `Email or password not valid`,
+                    redirect: '/',
+                    linkText: 'Register'
+                });
             }
         }
     }
-}
+};
 
 export default userController;

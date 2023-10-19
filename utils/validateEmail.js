@@ -1,12 +1,11 @@
 const validateEmail = (email) => {
-    const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (pattern.test(email)) {
-        return true
+        return true;
     } else {
-        return false
+        return false;
     }
-
-}
+};
 
 export default validateEmail;
