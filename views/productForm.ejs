@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+
+<body>
+    <%- include('./includes/nav.ejs', {isLoggedIn : isLoggedIn}) %>
+        <div class="formbg-outer">
+            <div class="formbg">
+                <div class="formbg-inner padding-horizontal--48">
+                    <span class="padding-bottom--15">
+                        <%= btnText%>
+                    </span>
+                    <form action="<%= action  %>" method="POST" id="stripe-login">
+                        <div class="field padding-bottom--24">
+                            <label for="name">Name</label>
+                            <input type="text" name="name">
+                        </div>
+                        <div class="field padding-bottom--24">
+                            <div class="grid--50-50">
+                                <label for="price">Price</label>
+                            </div>
+                            <input type="number" name="price">
+                        </div>
+                        <div class="field padding-bottom--24">
+                            <div class="grid--50-50">
+                                <label for="description">Description</label>
+                            </div>
+                            <input type="text" name="description">
+                        </div>
+                        <div class="field padding-bottom--24">
+                            <div class="grid--50-50">
+                                <label for="category">Category</label>
+                            </div>
+                            <input type="text" name="category">
+                        </div>
+                        <div class="field padding-bottom--24">
+                            <div class="grid--50-50">
+                                <label for="img">Upload Image</label>
+                            </div>
+                            <input type="url" name="img">
+                        </div>
+                        <div class="field padding-bottom--24">
+                            <button type="submit">
+                                <%= btnText%>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

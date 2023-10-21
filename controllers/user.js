@@ -1,15 +1,83 @@
+import bcrypt from "bcryptjs";
 import User from '../models/user.js';
+import hashPassword from '../utils/hashPassword.js';
 import validateEmail from '../utils/validateEmail.js';
 import validatePassword from '../utils/validatePassword.js';
 
+
 const userController = {
-    getHome: (req, res) => {
+    register: (req, res) => {
+        const { email, password } = req.body;
+        const emailExist = User.getUserById(email);
+        if (!emailExist) {
+            const isValidateEmail = validateEmail(email);
+            const isValidatePassword = validatePassword(password);
+
+            if (isValidateEmail && isValidatePassword) {
+                const passwordHash = hashPassword(password);
+                const user = new User(email, passwordHash);
+                user.addUser();
+                req.session.isLoggedIn = true;
+                req.session.email = email;
+                res.status(302).redirect('/login');
+            } else {
+                res.status(409).render('message', {
+                    title: 'Not valid',
+                    message: `Email or password is not valid`,
+                    redirect: '/register',
+                    linkText: 'Register',
+                    isLoggedIn: req.session.isLoggedIn
+                });
+            }
+        } else {
+            res.status(409).render('message', {
+                title: 'Email already exists',
+                message: `This email already taken`,
+                redirect: '/login',
+                linkText: 'Login',
+                isLoggedIn: req.session.isLoggedIn
+            });
+        }
+    },
+
+    login: (req, res) => {
+        const { email, password } = req.body;
+        const emailExist = User.getUserById(email);
+        if (!emailExist) {
+            res.status(401).render('message', {
+                title: 'invalid email or password',
+                message: `Provide valid email & password`,
+                redirect: '/login',
+                linkText: 'Login',
+                isLoggedIn: req.session.isLoggedIn
+            });
+        } else {
+            bcrypt.compare(password, emailExist.password, (err, isValid) => {
+                if (isValid) {
+                    req.session.isLoggedIn = true;
+                    req.session.email = email;
+                    res.status(302).redirect('/');
+                } else {
+                    res.status(409).render('message', {
+                        title: 'log is failed',
+                        message: `Email or password not valid`,
+                        redirect: '/',
+                        linkText: 'Register',
+                        isLoggedIn: req.session.isLoggedIn
+                    });
+                }
+            })
+        }
+    },
+
+    getRegister: (req, res) => {
         res.status(200).render('form', {
             action: '/register',
             btnText: 'Register',
             title: 'Register',
             linkText: 'Login',
-            redirect: '/login'
+            redirect: '/login',
+            isLoggedIn: req.session.isLoggedIn
         });
     },
 
@@ -19,63 +87,18 @@ const userController = {
             btnText: 'Login',
             title: 'Login',
             linkText: 'Register',
-            redirect: '/'
+            redirect: '/',
+            isLoggedIn: req.session.isLoggedIn
         });
     },
 
-    register: (req, res) => {
-        const { email, password } = req.body;
-        const emailExist = User.getUserById(email);
-        if (!emailExist) {
-            const isValidateEmail = validateEmail(email);
-            const isValidatePassword = validatePassword(password);
-
-            if (isValidateEmail && isValidatePassword) {
-                const user = new User(email, password);
-                user.addUser();
-                res.status(200).redirect('/login')
-            } else {
-                res.status(409).render('message', {
-                    title: 'invalid email or password',
-                    message: `Provide valid email & password`,
-                    redirect: '/',
-                    linkText: 'Register'
-                });
+    logOut: (req, res) => {
+        req.session.destroy((err) => {
+            if (err) {
+                console.log(err);
             }
-        } else {
-            res.status(409).render('message', {
-                title: 'invalid email or password',
-                message: `Email or password not valid`,
-                redirect: '/',
-                linkText: 'Register'
-            });
-        }
-    },
-
-    login: (req, res) => {
-        const { email, password } = req.body;
-        const emailExist = User.getUserById(email);
-
-        if (!emailExist) {
-            res.status(409).render('message', {
-                title: 'invalid email or password',
-                message: `Provide valid email & password`,
-                redirect: '/',
-                linkText: 'Register'
-
-            });
-        } else {
-            if (emailExist.password === password) {
-                res.status(200).render('welcome', { title: 'welcome page' })
-            } else {
-                res.status(409).render('message', {
-                    title: 'invalid email or password',
-                    message: `Email or password not valid`,
-                    redirect: '/',
-                    linkText: 'Register'
-                });
-            }
-        }
+            res.status(302).redirect('/');
+        });
     }
 };
 

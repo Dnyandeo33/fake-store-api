@@ -1,9 +1,13 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
+
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+
 import logger from './middleware/logger.js';
+
+import productRoutes from './routes/store.js';
 import userRoutes from './routes/user.js';
 
 //configuration dotenv
@@ -19,30 +23,35 @@ const PATH = dirname(__filename);
 // initialize express
 const app = express();
 
-// // logger
-app.use(logger);
-
-// set engin
-app.set('view engine', 'ejs');
-app.set('views', path.join(PATH, 'views'));
-
 // body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// // logger
+// app.use(logger);
 
 app.use(
     session({
         secret: process.env.SECRET,
         resave: false,
-        saveUninitialized: true
+        saveUninitialized: true,
+        cookie: {
+            httpOnly: true
+        }
     })
 );
+
+// set engin
+app.set('view engine', 'ejs');
+app.set('views', path.join(PATH, 'views'));
+
 
 //static folder
 app.use(express.static(path.join(PATH, 'public')));
 
 // route
 app.use(userRoutes);
+app.use(productRoutes);
 
 // 404
 app.use((req, res) => {
@@ -50,7 +59,8 @@ app.use((req, res) => {
         title: `Page not found`,
         message: `Page doesn't exits`,
         redirect: `/`,
-        linkText: `register`
+        linkText: `register`,
+        isLoggedIn: req.session.isLoggedIn
     });
 });
 

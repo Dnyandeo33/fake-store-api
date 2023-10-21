@@ -15,13 +15,10 @@ class User {
         this.password = password;
     }
 
-    static getUser = () => {
-        return users;
-    };
-
     static getUserById = (email) => {
         return users.find((user) => user.email === email);
     };
+
     addUser = () => {
         users.push(this);
     };

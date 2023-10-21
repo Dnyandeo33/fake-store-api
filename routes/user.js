@@ -1,11 +1,11 @@
 import express from 'express';
 import userController from '../controllers/user.js';
-const { getHome, register, login, getLogin, getMain } = userController;
+const { register, login, getLogin, getRegister, logOut } = userController;
 
 const router = express.Router();
 
-router.route('/').get(getHome)
-router.route('/login').get(getLogin).post(login)
-router.route('/register').post(register)
+router.route('/login').get(getLogin).post(login);
+router.route('/register').get(getRegister).post(register);
+router.get('/log-out', logOut);
 
 export default router;

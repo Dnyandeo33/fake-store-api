@@ -11,16 +11,17 @@
 </head>
 
 <body>
-    <div class="hero">
-        <div class="hero-text">
-            <h1>
-                <%= message %>
-            </h1>
-            <a href="<%= redirect %>">
-                <%=linkText %>
-            </a>
+    <%- include('./includes/nav.ejs', {isLoggedIn : isLoggedIn}) %>
+        <div class="hero">
+            <div class="hero-text">
+                <h1>
+                    <%= message %>
+                </h1>
+                <a href="<%= redirect %>">
+                    <%=linkText %>
+                </a>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>
