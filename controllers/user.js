@@ -17,8 +17,6 @@ const userController = {
                 const passwordHash = hashPassword(password);
                 const user = new User(email, passwordHash);
                 user.addUser();
-                req.session.isLoggedIn = true;
-                req.session.email = email;
                 res.status(302).redirect('/login');
             } else {
                 res.status(409).render('message', {
@@ -46,7 +44,7 @@ const userController = {
         if (!emailExist) {
             res.status(401).render('message', {
                 title: 'invalid email or password',
-                message: `Provide valid email & password`,
+                message: `Invalid email or password`,
                 redirect: '/login',
                 linkText: 'Login',
                 isLoggedIn: req.session.isLoggedIn
@@ -55,7 +53,6 @@ const userController = {
             bcrypt.compare(password, emailExist.password, (err, isValid) => {
                 if (isValid) {
                     req.session.isLoggedIn = true;
-                    req.session.email = email;
                     res.status(302).redirect('/');
                 } else {
                     res.status(409).render('message', {

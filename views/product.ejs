@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- <link rel="stylesheet" href="/css/product.css"> -->
     <link rel="stylesheet" href="/css/style.css">
     <title>
         <%= title %>
@@ -25,14 +23,17 @@
                                 <h1>
                                     <%=product.name %>
                                 </h1>
-                                <h2>$<%= product.category %>
+                                <h2>
+                                    <%= product.category %>
                                 </h2>
                                 <p>
                                     <%= product.description %>
                                 </p>
                             </div>
                             <div class="product-price-btn">
-                                <p><span>$<%= product.price %></span>$</p>
+                                <p><span>
+                                        <%= product.price %>
+                                    </span>$</p>
                                 <button type="button">buy now</button>
                             </div>
                         </div>
