@@ -1,14 +1,14 @@
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from 'express';
-import session from 'express-session';
 
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import logger from './middleware/logger.js';
 
 import productRoutes from './routes/store.js';
 import userRoutes from './routes/user.js';
+
 
 //configuration dotenv
 
@@ -26,20 +26,10 @@ const app = express();
 // body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 // // logger
 // app.use(logger);
-
-app.use(
-    session({
-        secret: process.env.SECRET,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            httpOnly: true
-        }
-    })
-);
 
 // set engin
 app.set('view engine', 'ejs');
@@ -60,7 +50,6 @@ app.use((req, res) => {
         message: `Page doesn't exits`,
         redirect: `/`,
         linkText: `register`,
-        isLoggedIn: req.session.isLoggedIn
     });
 });
 
