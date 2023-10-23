@@ -12,7 +12,7 @@
 
 <body>
     <div class="hero">
-        <%- include('./includes/nav.ejs', {isLoggedIn : isLoggedIn}) %>
+        <%- include('./includes/nav.ejs', {token:token}) %>
             <div class="hero-text">
                 <h1>
                     <%= title %>

@@ -11,10 +11,27 @@
 </head>
 
 <body>
-    <%- include('./includes/nav.ejs', {isLoggedIn : isLoggedIn} ) %>
-        <div class="container">
+    <%- include('./includes/nav.ejs', {token:token}) %>
+        <div class="card-container">
             <% if (products.length> 0) { %> <% products.forEach((product)=> { %>
-                    <div class="wrapper">
+
+                    <div class="cards">
+                        <img src="<%= product.img  %>" alt="9qvWEF.jpeg" class="model-picture">
+                        <h2 class="type">
+                            <%= product.name %>
+                        </h2>
+                        <p class="description">
+                            <%= product.description %>
+                        </p>
+                        <div class="shopping-container">
+                            <h3 class="price">
+                                <%= product.price %>
+                            </h3>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="wrapper">
                         <div class="product-img">
                             <img src="<%= product.img  %>" height="240" width="327">
                         </div>
@@ -37,12 +54,12 @@
                                 <button type="button">buy now</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <% }) %>
-                        <% } else { %>
-                            <p>No Product available.</p>
-                            <% } %>
         </div>
+        <% } else { %>
+            <p>No Product available.</p>
+            <% } %>
 </body>
 
 </html>

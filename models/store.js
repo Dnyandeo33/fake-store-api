@@ -1,42 +1,39 @@
 import { v4 as productId } from 'uuid';
 
-const products = [
+const corses = [
     {
         id: '1',
-        name: 'Macbook Air',
-        price: '1000',
+        name: 'JavaScript',
+        price: '100',
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        category: "Laptop",
-        img: 'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_79349935/fee_786_587_png'
+        img: 'https://emaillistvalidation.com/blog/content/images/2023/10/JavaScript-Symbol-1.png'
     },
     {
         id: '2',
-        name: 'Macbook Pro',
-        price: '1200',
+        name: 'React',
+        price: '120',
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        category: "Laptop",
-        img: 'https://support.apple.com/library/APPLE/APPLECARE_ALLGEOS/SP858/mbp16-gray.png'
+        img: 'https://miro.medium.com/v2/resize:fit:1050/1*i3hzpSEiEEMTuWIYviYweQ.png'
     }
 ];
 
-class Product {
-    constructor(name, price, description, category, img) {
+class Corse {
+    constructor(name, price, description, img) {
         this.id = productId();
         this.name = name;
         this.price = price;
         this.description = description
-        this.category = category
         this.img = img;
     }
 
     static getProducts = () => {
-        return products;
+        return corses;
     }
 
     postProduct = () => {
-        products.push(this)
+        corses.push(this)
 
     }
 }
 
-export default Product;
+export default Corse;

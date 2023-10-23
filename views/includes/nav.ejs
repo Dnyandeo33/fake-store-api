@@ -4,7 +4,7 @@
             <a href="/">Home</a>
         </li>
 
-        <% if(! isLoggedIn ) {%>
+        <% if(! token ) {%>
             <li>
                 <a href="/register">Register</a>
             </li>
@@ -12,13 +12,14 @@
                 <a href="/login">Login</a>
             </li>
             <% } %>
-                <% if( isLoggedIn ) {%>
+                <% if( token ) {%>
                     <li>
-                        <a href="/add-product-form">Add Product</a>
+                        <a href="/add-product-form">Add Corse</a>
                     </li>
                     <li>
                         <a href="/log-out">Logout</a>
                     </li>
-                    <% }%>
+                    <%} %>
+
     </ul>
 </nav>
